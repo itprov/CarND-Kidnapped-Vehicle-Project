@@ -53,12 +53,8 @@ void ParticleFilter::prediction(double delta_t, double std_pos[], double velocit
 		// Check for division by 0
 		if (yaw_rate != 0) {
 			// Add measurements
-			particle.x += (velocity / yaw_rate)
-									* (sin(particle.theta + yaw_rate * delta_t)
-											- sin(particle.theta));
-			particle.y += (velocity / yaw_rate)
-									* (cos(particle.theta)
-											- cos(particle.theta + yaw_rate * delta_t));
+			particle.x += (velocity / yaw_rate) * (sin(particle.theta + yaw_rate * delta_t) - sin(particle.theta));
+			particle.y += (velocity / yaw_rate) * (cos(particle.theta) - cos(particle.theta + yaw_rate * delta_t));
 			particle.theta += yaw_rate * delta_t;
 		}
 		else {
@@ -130,8 +126,7 @@ void ParticleFilter::updateWeights(double sensor_range, double std_landmark[],
 			// Calculate probability for weight using Multivariate Gaussian
 			double x = t_obs.x - mu_x;
 			double y = t_obs.y - mu_y;
-			double prob = gauss_norm
-									* exp(-(x * x / exp_denom_term1 + y * y / exp_denom_term2));
+			double prob = gauss_norm * exp(-(x * x / exp_denom_term1 + y * y / exp_denom_term2));
 			if (prob == 0) {
 				// Avoid division by 0 in normalization
 				prob = 0.000001;
