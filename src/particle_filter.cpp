@@ -50,17 +50,20 @@ void ParticleFilter::prediction(double delta_t, double std_pos[], double velocit
 	normal_distribution<double> dist_y(0, std_pos[1]);
 	normal_distribution<double> dist_theta(0, std_pos[2]);
 	for (auto& particle: particles) {
+		double multiplier;
 		// Check for division by 0
 		if (yaw_rate != 0) {
 			// Add measurements
-			particle.x += (velocity / yaw_rate) * (sin(particle.theta + yaw_rate * delta_t) - sin(particle.theta));
-			particle.y += (velocity / yaw_rate) * (cos(particle.theta) - cos(particle.theta + yaw_rate * delta_t));
+			multiplier = velocity / yaw_rate;
+			particle.x += multiplier * (sin(particle.theta + yaw_rate * delta_t) - sin(particle.theta));
+			particle.y += multiplier * (cos(particle.theta) - cos(particle.theta + yaw_rate * delta_t));
 			particle.theta += yaw_rate * delta_t;
 		}
 		else {
 			// If yaw is not changing, particle will move in the same direction
-			particle.x += velocity * delta_t * cos(particle.theta);
-			particle.y += velocity * delta_t * sin(particle.theta);
+			multiplier = velocity * delta_t;
+			particle.x += multiplier * cos(particle.theta);
+			particle.y += multiplier * sin(particle.theta);
 		}
 		// Add random Gaussian noise to each particle.
 		particle.x += dist_x(gen);
