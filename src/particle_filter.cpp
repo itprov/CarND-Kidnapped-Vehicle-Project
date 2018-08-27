@@ -87,7 +87,7 @@ void ParticleFilter::updateWeights(double sensor_range, double std_landmark[],
 	// Useful constants to be used in weight (probability) calculation later.
 	const double gauss_norm = 1 / (2 * M_PI * std_landmark[0] * std_landmark[1]);
 	const double exp_denom_term1 = 2 * std_landmark[0] * std_landmark[0];
-  const double exp_denom_term2 = 2 * std_landmark[1] * std_landmark[1];
+	const double exp_denom_term2 = 2 * std_landmark[1] * std_landmark[1];
 	// Empty previous weight vector.
 	weights.clear();
 	// sum of weights to be used in weight normalization later.
